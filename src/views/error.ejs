@@ -1,0 +1,12 @@
+<body>
+  <!-- src/views/error.ejs -->
+  <h1>
+    <%= status %>
+  </h1>
+  <p>
+    <%= message %>
+  </p>
+  <% if (stack) { %>
+    <pre><%= stack %></pre>
+    <% } %>
+</body>

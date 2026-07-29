@@ -3,12 +3,13 @@ import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import passport from "./config/passport.js";
-import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import path from "node:path";
 
 import prisma from "../lib/prisma.js";
 import indexRoute from "./routes/index.js";
+import notFound from "./middleware/notFound.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: new PrismaSessionStore(prisma, {
@@ -34,3 +35,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", indexRoute);
+
+app.use(notFound);
+app.use(errorHandler);
+
+export default app;

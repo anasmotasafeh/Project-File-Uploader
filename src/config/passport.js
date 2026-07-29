@@ -1,8 +1,8 @@
 // src/config/passport.js
 import passport from "passport";
 import { Strategy } from "passport-local";
-import bcrypt from "bcrypt";
 import { getUserByEmail, getUserById } from "../services/userService.js";
+import bcryptjs from "bcryptjs";
 
 const verifyCallbackFunction = async (email, password, done) => {
   try {
@@ -12,7 +12,7 @@ const verifyCallbackFunction = async (email, password, done) => {
       return done(null, false);
     }
 
-    const passwordMatches = await bcrypt.compare(password, user.password);
+    const passwordMatches = await bcryptjs.compare(password, user.password);
     if (!passwordMatches) {
       return done(null, false);
     }

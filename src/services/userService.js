@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs/dist/bcrypt.js";
-import { prisma } from "../../lib/prisma.js";
+import prisma from "../../lib/prisma.js";
 
 export const getUserByEmail = (email) => {
   return prisma.user.findUnique({

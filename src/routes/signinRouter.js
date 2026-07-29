@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getSigninForm, postSingin } from "../controllers/signinController.js";
-
+import { getSigninForm, postSignin } from "../controllers/signinController.js";
+import validateSignin from "../middleware/validateSignin.js";
 const signinRouter = Router();
 
 signinRouter.get("/", getSigninForm);
-signinRouter.post("/", postSingin);
+signinRouter.post("/", validateSignin, postSignin);
 
 export default signinRouter;
