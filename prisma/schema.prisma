@@ -11,3 +11,48 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String   @db.VarChar(100)
+  email    String   @unique @db.VarChar(255)
+  password String   @db.VarChar(255)
+
+  folders  Folder[]
+  files    File[]
+
+  createdAt DateTime @default(now())
+}
+
+model Folder {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+
+  files File[]
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  createdAt DateTime @default(now())
+}
+
+model File {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+  url  String 
+
+  folder   Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId Int
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  createdAt DateTime @default(now())
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
